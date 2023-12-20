@@ -22,6 +22,12 @@ CREATE TABLE IF NOT EXISTS Track (
     duration TIME CHECK (duration > '00:00:00') NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS Collection (
+    id SERIAL PRIMARY KEY,
+    release_year INT CHECK (release_year >= 1950) NOT NULL,
+    name VARCHAR(120) UNIQUE NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS Genre_Musician (
     genre_id INT,
     musician_id INT,
@@ -38,16 +44,10 @@ CREATE TABLE IF NOT EXISTS Musician_Album (
     FOREIGN KEY (album_id) REFERENCES Album(id)
 );
 
-CREATE TABLE IF NOT EXISTS Collection (
-    id SERIAL PRIMARY KEY,
-    release_year INT CHECK (release_year >= 1950) NOT NULL,
-    name VARCHAR(120) UNIQUE NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS Collection_Track (
-	collection_id INT,
-	track_id INT,
-	PRIMARY KEY (collection_id, track_id),
-	FOREIGN KEY (collection_id) REFERENCES Collection(id),
-	FOREIGN KEY (track_id) REFERENCES Track(id)
+    collection_id INT,
+    track_id INT,
+    PRIMARY KEY (collection_id, track_id),
+    FOREIGN KEY (collection_id) REFERENCES Collection(id),
+    FOREIGN KEY (track_id) REFERENCES Track(id)
 );
